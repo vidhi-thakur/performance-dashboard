@@ -28,6 +28,21 @@ function App() {
     setFilteredData(data);
   };
 
+  const handleApply = ({ country, customerTier, status }) => {
+    let data = orders;
+    if (country) {
+      data = data.filter((d) => d.country === country);
+    }
+    if (customerTier) {
+      data = data.filter((d) => d.customerTier === customerTier);
+    }
+    if (status) {
+      data = data.filter((d) => d.status === status);
+    }
+    setFilteredData(data);
+    setFilterOpen(false);
+  };
+
   return (
     <div className="min-h-full">
       <header className="bg-white text-black py-4 shadow-(--shadow) px-6 max-w-7xl mx-auto">
@@ -101,7 +116,12 @@ function App() {
               <button onClick={() => setFilterOpen((val) => !val)}>
                 Filter
               </button>
-              {isFilterOpen ? <Filter /> : null}
+              {isFilterOpen ? (
+                <Filter
+                  handleCancel={() => setFilterOpen(false)}
+                  handleApply={handleApply}
+                />
+              ) : null}
             </div>
           </section>
 
