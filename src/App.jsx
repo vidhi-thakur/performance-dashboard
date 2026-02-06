@@ -9,6 +9,7 @@ import Filter from "./components/Filter";
 
 function App() {
   const [filteredData, setFilteredData] = useState([]);
+  const [isFilterOpen, setFilterOpen] = useState(false);
   useEffect(() => {
     (() => {
       const orders = generateOrders();
@@ -52,8 +53,10 @@ function App() {
               <FaSearch />
             </div>
             <div className="relative">
-              <button>Filter</button>
-              <Filter />
+              <button onClick={() => setFilterOpen((val) => !val)}>
+                Filter
+              </button>
+              {isFilterOpen ? <Filter /> : null}
             </div>
           </section>
 
