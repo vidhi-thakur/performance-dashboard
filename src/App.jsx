@@ -9,13 +9,24 @@ import Filter from "./components/Filter";
 
 function App() {
   const [filteredData, setFilteredData] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [isFilterOpen, setFilterOpen] = useState(false);
   useEffect(() => {
     (() => {
       const orders = generateOrders();
       setFilteredData(orders);
+      setOrders(orders);
     })();
   }, []);
+
+  const handleSearch = (e) => {
+    const data = orders.filter((data) => {
+      return data.customerName
+        .toLowerCase()
+        .includes(e.target.value.toLowerCase());
+    });
+    setFilteredData(data);
+  };
 
   return (
     <div className="min-h-full">
@@ -33,11 +44,44 @@ function App() {
         </div>
         {/* summary stats */}
         <section className="flex gap-4 mb-(--spacing-lg) flex-wrap">
-          <Stats title="Total Orders" value={100} />
-          <Stats title="Total Revenue" value={100} />
-          <Stats title="Average Order Value" value={100} />
-          <Stats title="Completed Orders" value={100} />
-          <Stats title="Revenue by Tier" value={100} />
+          <Stats
+            title="Total Revenue"
+            value={orders
+              .reduce(
+                (acc, val) =>
+                  acc +
+                  val.orderValue -
+                  (val.discountPercent / 100) * val.orderValue,
+                0
+              )
+              .toLocaleString("en-IN", {
+                style: "currency",
+                currency: "INR",
+              })}
+          />
+          <Stats
+            title="Average Order Value"
+            value={(
+              orders.reduce(
+                (acc, val) =>
+                  acc +
+                  val.orderValue -
+                  (val.discountPercent / 100) * val.orderValue,
+                0
+              ) / orders.length
+            ).toLocaleString("en-IN", {
+              style: "currency",
+              currency: "INR",
+            })}
+          />
+          <Stats
+            title="Completed Orders"
+            value={orders.filter((data) => data.status === "Completed").length}
+          />
+          <Stats
+            title="Total Items Sold"
+            value={orders.reduce((acc, val) => acc + val.itemsCount, 0)}
+          />
         </section>
 
         <div>
@@ -49,6 +93,7 @@ function App() {
                 type="text"
                 className="flex-1 hover:bg-transparent focus-visible:outline-0 pl-1"
                 placeholder="Search..."
+                onChange={handleSearch}
               />
               <FaSearch />
             </div>
@@ -87,7 +132,12 @@ function App() {
                     <td>{user.customerName}</td>
                     <td>{user.customerTier}</td>
                     <td>{user.country}</td>
-                    <td>{user.orderValue}</td>
+                    <td>
+                      {user.orderValue.toLocaleString("en-IN", {
+                        style: "currency",
+                        currency: "INR",
+                      })}
+                    </td>
                     <td>{user.itemsCount}</td>
                     <td>{user.discountPercent}</td>
                     <td>{user.status}</td>
