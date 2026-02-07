@@ -138,3 +138,12 @@ Interaction Latency:
 Conclusion:
 - Main thread is blocked by synchronous JavaScript work
 - Performance issue is computation-heavy, not DOM-related
+
+
+### FPS & UI Responsiveness
+
+- Initial load FPS: 1.2
+- Scrolling FPS: <30
+- Typing FPS: < 15
+- Applying filters FPS: < 20
+- UI effectively frozen during heavy interactions
