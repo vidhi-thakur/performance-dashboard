@@ -11,6 +11,13 @@ function App() {
   const [filteredData, setFilteredData] = useState([]);
   const [orders, setOrders] = useState([]);
   const [isFilterOpen, setFilterOpen] = useState(false);
+  const [filters, setFilters] = useState({
+    search: "",
+    country: "",
+    customerTier: "",
+    status: "",
+  });
+
   useEffect(() => {
     (() => {
       const orders = generateOrders();
@@ -19,27 +26,40 @@ function App() {
     })();
   }, []);
 
-  const handleSearch = (e) => {
-    const data = orders.filter((data) => {
-      return data.customerName
-        .toLowerCase()
-        .includes(e.target.value.toLowerCase());
-    });
+  useEffect(() => {
+    let data = orders;
+    if (filters.country) {
+      data = data.filter((d) => d.country === filters.country);
+    }
+    if (filters.customerTier) {
+      data = data.filter((d) => d.customerTier === filters.customerTier);
+    }
+    if (filters.status) {
+      data = data.filter((d) => d.status === filters.status);
+    }
+    if (filters.search) {
+      data = data.filter((val) => {
+        return val.customerName
+          .toLowerCase()
+          .includes(filters.search.toLowerCase());
+      });
+    }
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setFilteredData(data);
+  }, [
+    filters.country,
+    filters.customerTier,
+    filters.status,
+    filters.search,
+    orders,
+  ]);
+
+  const handleSearch = (e) => {
+    setFilters((val) => ({ ...val, search: e.target.value }));
   };
 
   const handleApply = ({ country, customerTier, status }) => {
-    let data = orders;
-    if (country) {
-      data = data.filter((d) => d.country === country);
-    }
-    if (customerTier) {
-      data = data.filter((d) => d.customerTier === customerTier);
-    }
-    if (status) {
-      data = data.filter((d) => d.status === status);
-    }
-    setFilteredData(data);
+    setFilters((val) => ({ ...val, country, customerTier, status }));
     setFilterOpen(false);
   };
 
