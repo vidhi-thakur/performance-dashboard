@@ -1,5 +1,7 @@
 ## Performance Baseline (v1)
 
+### React Profiler
+
 Interaction tested:
 - Typing a single character in search input
 
@@ -16,6 +18,10 @@ Browser Impact:
 
 UX Impact:
 - UI freezes briefly
+
+Component level cost:
+- Row render count: 2
+- Stats render count: 8
 
 ---
 
@@ -41,6 +47,10 @@ Browser Impact:
 UX Impact:
 - UI lag visible
 
+Component level cost:
+- Row render count: 3
+- Stats render count: 12
+
 ---
 
 Interaction tested:
@@ -58,3 +68,7 @@ Browser Impact:
 
 UX Impact:
 - UI lag visible
+
+Component level cost:
+- Row render count: 2
+- Stats render count: 4
