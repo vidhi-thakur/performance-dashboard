@@ -72,3 +72,69 @@ UX Impact:
 Component level cost:
 - Row render count: 2
 - Stats render count: 4
+
+
+### Performance tab
+
+### Chrome Performance (Browser-level)
+
+Interaction tested:
+- Typing a single character in search input
+
+Long Task:
+- Duration: 1.39s
+- Triggered by: keypress event
+
+Main Thread Breakdown:
+- Scripting (JavaScript execution): 947ms
+- React/System overhead: 441ms
+- Rendering: 6ms
+
+Interaction Latency:
+- INP: 1418ms
+
+Conclusion:
+- Main thread is blocked by synchronous JavaScript work
+- Performance issue is computation-heavy, not DOM-related
+
+---
+
+Interaction tested:
+- Applying all filters
+
+Long Task:
+- Duration: 1.37s
+- Triggered by: click event
+
+Main Thread Breakdown:
+- Scripting (JavaScript execution): 957ms
+- React/System overhead: 398ms
+- Rendering: 14ms
+
+Interaction Latency:
+- INP: 1385ms
+
+Conclusion:
+- Main thread is blocked by synchronous JavaScript work
+- Performance issue is computation-heavy, not DOM-related
+
+---
+
+Interaction tested:
+- Clearing filters
+
+Long Task:
+- Duration: 1.5s
+- Triggered by: click event
+
+Main Thread Breakdown:
+- Scripting (JavaScript execution): 939ms
+- React/System overhead: 478ms
+- Rendering: 78ms
+
+Interaction Latency:
+- INP: 1586ms
+
+Conclusion:
+- Main thread is blocked by synchronous JavaScript work
+- Performance issue is computation-heavy, not DOM-related
