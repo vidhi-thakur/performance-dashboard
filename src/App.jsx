@@ -6,6 +6,7 @@ import { FaSearch } from "react-icons/fa";
 import { FaSort } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import Filter from "./components/Filter";
+import { MdClear } from "react-icons/md";
 
 function App() {
   const [filteredData, setFilteredData] = useState([]);
@@ -61,6 +62,16 @@ function App() {
   const handleApply = ({ country, customerTier, status }) => {
     setFilters((val) => ({ ...val, country, customerTier, status }));
     setFilterOpen(false);
+  };
+
+  const resetFilters = () => {
+    setFilteredData(orders);
+    setFilters((val) => ({
+      ...val,
+      country: "",
+      customerTier: "",
+      status: "",
+    }));
   };
 
   return (
@@ -119,7 +130,7 @@ function App() {
           />
         </section>
 
-        <div>
+        <div className="mb-12">
           {/* actions */}
           <section className="flex items-center justify-between mb-(--spacing-sm) gap-2 flex-wrap">
             <div className="bg-white border p-2 border-black/25 rounded-(--spacing-sm) flex items-center gap-1 w-72">
@@ -132,7 +143,16 @@ function App() {
               />
               <FaSearch />
             </div>
-            <div className="relative">
+            <div className="relative flex gap-2">
+              {filters.country || filters.customerTier || filters.status ? (
+                <button
+                  onClick={resetFilters}
+                  className="bg-white border border-(--theme-color) text-(--theme-color) flex items-center gap-1"
+                >
+                  <MdClear />
+                  Clear
+                </button>
+              ) : null}
               <button onClick={() => setFilterOpen((val) => !val)}>
                 Filter
               </button>
@@ -186,6 +206,9 @@ function App() {
               </tbody>
             </table>
           </section>
+          <div className="text-gray-700 text-3">
+            Showing {filteredData.length} results
+          </div>
         </div>
       </div>
     </div>
