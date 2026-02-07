@@ -1,16 +1,30 @@
-# React + Vite
+# Performance Analytics Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A data-heavy frontend dashboard built to intentionally expose real-world performance bottlenecks and demonstrate systematic frontend performance profiling and optimization.
 
-Currently, two official plugins are available:
+This project focuses on measurement-first performance engineering: profiling before fixing, and validating improvements with concrete metrics.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
 
-## React Compiler
+1. React + Vite
+2. Chrome & React DevTools
+3. Tailwind CSS
+## 🧪 Run Locally
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. **Clone the repo:**
+```
+git clone https://github.com/vidhi-thakur/performance-dashboard.git
+cd focus-on-extension
+```
 
-## Expanding the ESLint configuration
+2. **Install dependencies:**
+``` 
+npm install
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+3. **Start the project:**
+```
+npm run dev
+```
+
+### Live demo link: https://transaction-analytice-dashboard.netlify.app/
