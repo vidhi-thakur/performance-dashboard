@@ -1,16 +1,60 @@
-# React + Vite
+## Performance Baseline (v1)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interaction tested:
+- Typing a single character in search input
 
-Currently, two official plugins are available:
+Commits:
+- Total commits: 2
+- Slowest commit: 462.9ms
+- Secondary commit: 55ms
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+React Profiler:
+- Root cause: App-level state update
 
-## React Compiler
+Browser Impact:
+- Main thread blocked > 500ms
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+UX Impact:
+- UI freezes briefly
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Interaction tested:
+- Applied all filters
+
+Commits:
+- Total commits: 6
+- Slowest commit: 550.1ms
+- 1st commit: 537.7ms
+- 2nd commit: 1.8ms
+- 3rd commit: 1.5ms
+- 4th commit: 1.9ms
+- 5th commit: 550.1ms
+- 6th commit: 4.6ms
+
+React Profiler:
+- Root cause: App-level state update
+
+Browser Impact:
+- Main thread blocked > 1000ms
+
+UX Impact:
+- UI lag visible
+
+---
+
+Interaction tested:
+- Cleared filters
+
+Commits:
+- Total commits: 1
+- Commit duration: 766.8ms
+
+React Profiler:
+- Root cause: App-level state update
+
+Browser Impact:
+- Main thread blocked > 700ms
+
+UX Impact:
+- UI lag visible
