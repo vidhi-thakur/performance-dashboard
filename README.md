@@ -14,7 +14,7 @@ This project focuses on measurement-first performance engineering: profiling bef
 1. **Clone the repo:**
 ```
 git clone https://github.com/vidhi-thakur/performance-dashboard.git
-cd focus-on-extension
+cd performance-dashboard
 ```
 
 2. **Install dependencies:**
