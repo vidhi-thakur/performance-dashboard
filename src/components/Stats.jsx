@@ -1,6 +1,8 @@
 import React from "react";
 
 function Stats({ title, value }) {
+  console.log("stats render");
+  
   return (
     <div className="min-w-30 bg-white shadow-(--shadow) rounded-(--spacing-xs) p-4 flex-1">
       <p className="text-4xl font-medium">{value}</p>
@@ -9,4 +11,4 @@ function Stats({ title, value }) {
   );
 }
 
-export default Stats;
+export default React.memo(Stats);

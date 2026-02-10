@@ -3,14 +3,15 @@ import Stats from "./components/Stats";
 import { generateOrders } from "./helpers/fakeDataGenerator";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
-import { FaSort } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Filter from "./components/Filter";
+import Table from "./components/Table";
 import { MdClear } from "react-icons/md";
 
 function App() {
-  const [filteredData, setFilteredData] = useState([]);
-  const [orders, setOrders] = useState([]);
+  const orders = useMemo(() => generateOrders(), []);
+
+  const [filteredData, setFilteredData] = useState(orders);
   const [isFilterOpen, setFilterOpen] = useState(false);
   const [filters, setFilters] = useState({
     search: "",
@@ -18,14 +19,6 @@ function App() {
     customerTier: "",
     status: "",
   });
-
-  useEffect(() => {
-    (() => {
-      const orders = generateOrders();
-      setFilteredData(orders);
-      setOrders(orders);
-    })();
-  }, []);
 
   useEffect(() => {
     let data = orders;
@@ -168,43 +161,7 @@ function App() {
           {/* data table */}
 
           <section className="bg-white rounded-(--spacing-sm) h-112 overflow-auto mb-4">
-            <table border="1" cellPadding="8" width={"100%"}>
-              <thead className="bg-white sticky top-0 border-bottom">
-                <tr>
-                  <th>
-                    <div className="flex items-center justify-between">
-                      <span>Customer Name</span>
-                      <FaSort className="cursor-pointer" />
-                    </div>
-                  </th>
-                  <th>Customer Tier</th>
-                  <th>Country</th>
-                  <th>Order Value</th>
-                  <th>Items Count</th>
-                  <th>Discount %</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {filteredData.map((user) => (
-                  <tr key={user.id}>
-                    <td>{user.customerName}</td>
-                    <td>{user.customerTier}</td>
-                    <td>{user.country}</td>
-                    <td>
-                      {user.orderValue.toLocaleString("en-IN", {
-                        style: "currency",
-                        currency: "INR",
-                      })}
-                    </td>
-                    <td>{user.itemsCount}</td>
-                    <td>{user.discountPercent}</td>
-                    <td>{user.status}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <Table filteredData={filteredData} />
           </section>
           <div className="text-gray-700 text-3">
             Showing {filteredData.length} results
