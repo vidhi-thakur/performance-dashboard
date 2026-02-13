@@ -3,15 +3,13 @@ import Stats from "./components/Stats";
 import { generateOrders } from "./helpers/fakeDataGenerator";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Filter from "./components/Filter";
 import Table from "./components/Table";
 import { MdClear } from "react-icons/md";
 
 function App() {
   const orders = useMemo(() => generateOrders(), []);
-
-  const [filteredData, setFilteredData] = useState(orders);
   const [isFilterOpen, setFilterOpen] = useState(false);
   const [filters, setFilters] = useState({
     search: "",
@@ -19,34 +17,6 @@ function App() {
     customerTier: "",
     status: "",
   });
-
-  useEffect(() => {
-    let data = orders;
-    if (filters.country) {
-      data = data.filter((d) => d.country === filters.country);
-    }
-    if (filters.customerTier) {
-      data = data.filter((d) => d.customerTier === filters.customerTier);
-    }
-    if (filters.status) {
-      data = data.filter((d) => d.status === filters.status);
-    }
-    if (filters.search) {
-      data = data.filter((val) => {
-        return val.customerName
-          .toLowerCase()
-          .includes(filters.search.toLowerCase());
-      });
-    }
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setFilteredData(data);
-  }, [
-    filters.country,
-    filters.customerTier,
-    filters.status,
-    filters.search,
-    orders,
-  ]);
 
   const handleSearch = (e) => {
     setFilters((val) => ({ ...val, search: e.target.value }));
@@ -58,7 +28,6 @@ function App() {
   };
 
   const resetFilters = () => {
-    setFilteredData(orders);
     setFilters((val) => ({
       ...val,
       country: "",
@@ -66,6 +35,33 @@ function App() {
       status: "",
     }));
   };
+
+  const summary = useMemo(() => {
+    return {
+      revenue: orders
+        .reduce(
+          (acc, val) =>
+            acc + val.orderValue - (val.discountPercent / 100) * val.orderValue,
+          0
+        )
+        .toLocaleString("en-IN", {
+          style: "currency",
+          currency: "INR",
+        }),
+      avgValue: (
+        orders.reduce(
+          (acc, val) =>
+            acc + val.orderValue - (val.discountPercent / 100) * val.orderValue,
+          0
+        ) / orders.length
+      ).toLocaleString("en-IN", {
+        style: "currency",
+        currency: "INR",
+      }),
+      completed: orders.filter((data) => data.status === "Completed").length,
+      totalSold: orders.reduce((acc, val) => acc + val.itemsCount, 0),
+    };
+  }, [orders]);
 
   return (
     <div className="min-h-full">
@@ -83,44 +79,10 @@ function App() {
         </div>
         {/* summary stats */}
         <section className="flex gap-4 mb-(--spacing-lg) flex-wrap">
-          <Stats
-            title="Total Revenue"
-            value={orders
-              .reduce(
-                (acc, val) =>
-                  acc +
-                  val.orderValue -
-                  (val.discountPercent / 100) * val.orderValue,
-                0
-              )
-              .toLocaleString("en-IN", {
-                style: "currency",
-                currency: "INR",
-              })}
-          />
-          <Stats
-            title="Average Order Value"
-            value={(
-              orders.reduce(
-                (acc, val) =>
-                  acc +
-                  val.orderValue -
-                  (val.discountPercent / 100) * val.orderValue,
-                0
-              ) / orders.length
-            ).toLocaleString("en-IN", {
-              style: "currency",
-              currency: "INR",
-            })}
-          />
-          <Stats
-            title="Completed Orders"
-            value={orders.filter((data) => data.status === "Completed").length}
-          />
-          <Stats
-            title="Total Items Sold"
-            value={orders.reduce((acc, val) => acc + val.itemsCount, 0)}
-          />
+          <Stats title="Total Revenue" value={summary.revenue} />
+          <Stats title="Average Order Value" value={summary.avgValue} />
+          <Stats title="Completed Orders" value={summary.completed} />
+          <Stats title="Total Items Sold" value={summary.totalSold} />
         </section>
 
         <div className="mb-12">
@@ -159,13 +121,7 @@ function App() {
           </section>
 
           {/* data table */}
-
-          <section className="bg-white rounded-(--spacing-sm) h-112 overflow-auto mb-4">
-            <Table filteredData={filteredData} />
-          </section>
-          <div className="text-gray-700 text-3">
-            Showing {filteredData.length} results
-          </div>
+          <Table orders={orders} {...filters} />
         </div>
       </div>
     </div>

@@ -105,3 +105,101 @@ Interaction Latency:
 - Typing FPS: <30
 - Applying filters FPS: < 40-50
 - UI effectively frozen during heavy interactions
+
+---
+
+
+### <u>Category 2</u>: Derived State & Memoization
+### React Profiler
+
+Interaction tested:
+- Typing a single character in search input
+
+Commits:
+- Total commits: 1
+- Slowest commit: 576.3ms
+
+Component level cost:
+- Row render count: 1
+- Stats render count: 0
+
+---
+
+Interaction tested:
+- Applied all filters
+
+Commits:
+- Total commits: 5
+- Slowest commit: 11.4ms
+- 1st commit: 11.4ms
+- 2nd commit: 3ms
+- 3rd commit: 3ms
+- 4th commit: 3ms
+- 5th commit: 10.7ms
+
+Component level cost:
+- Row render count: 1
+- Stats render count: 0
+---
+
+Interaction tested:
+- Cleared filters
+
+Commits:
+- Total commits: 1
+- Commit duration: 525.5ms
+
+Component level cost:
+- Row render count: 1
+- Stats render count: 0
+
+### Performance tab
+
+Interaction tested:
+- Typing a single character in search input
+
+Long Task:
+- Duration: 793ms
+- Triggered by: keypress event
+
+Main Thread Breakdown:
+- Scripting (JavaScript execution): 593ms
+- React/System overhead: 181ms
+- Rendering: 19ms
+
+Interaction Latency:
+- INP: 822ms
+
+---
+
+Interaction tested:
+- Applying all filters
+
+Long Task:
+- Duration: 204ms
+- Triggered by: click event
+
+Main Thread Breakdown:
+- Scripting (JavaScript execution): 166ms
+- React/System overhead: 35ms
+- Rendering: 3ms
+
+Interaction Latency:
+- INP: 225ms
+
+---
+
+Interaction tested:
+- Clearing filters
+
+Long Task:
+- Duration: 1.75s
+- Triggered by: click event
+
+Main Thread Breakdown:
+- Scripting (JavaScript execution): 971ms
+- React/System overhead: 631ms
+- Rendering: 144ms
+
+Interaction Latency:
+- INP: 1777ms
