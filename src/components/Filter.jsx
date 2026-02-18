@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 
 function Filter({ handleCancel, handleApply }) {
-  const [country, setCountry] = useState("");
-  const [customerTier, setCustomerTire] = useState("");
-  const [status, setStatus] = useState("");
+  const [allFilters, setAllFilters] = useState({
+    country: "",
+    customerTier: "",
+    status: "",
+  });
 
   return (
     <div className="absolute top-10 right-0 z-10 bg-white shadow-(--shadow) w-72 p-4 rounded-(--spacing-sm) flex flex-col gap-4">
@@ -22,19 +24,25 @@ function Filter({ handleCancel, handleApply }) {
             "Japan",
           ]}
           id="country"
-          handleChange={(e) => setCountry(e.target.value)}
+          handleChange={(e) =>
+            setAllFilters((val) => ({ ...val, country: e.target.value }))
+          }
         />
         <DropdownInput
           label="Customer Tier"
           options={["Enterprise", "Free", "Pro"]}
           id="customer-tier"
-          handleChange={(e) => setCustomerTire(e.target.value)}
+          handleChange={(e) =>
+            setAllFilters((val) => ({ ...val, customerTier: e.target.value }))
+          }
         />
         <DropdownInput
           label="Status"
           options={["Cancelled", "Completed", "Pending"]}
           id="status"
-          handleChange={(e) => setStatus(e.target.value)}
+          handleChange={(e) =>
+            setAllFilters((val) => ({ ...val, status: e.target.value }))
+          }
         />
       </div>
       <div className="mt-2 flex items-center justify-between">
@@ -44,17 +52,7 @@ function Filter({ handleCancel, handleApply }) {
         >
           Cancel
         </button>
-        <button
-          onClick={() =>
-            handleApply({
-              country,
-              customerTier,
-              status,
-            })
-          }
-        >
-          Apply
-        </button>
+        <button onClick={() => handleApply(allFilters)}>Apply</button>
       </div>
     </div>
   );
