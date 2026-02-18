@@ -36,9 +36,36 @@ function App() {
     }));
   };
 
+  const filteredData = useMemo(() => {
+    let data = orders;
+    if (filters.country) {
+      data = data.filter((d) => d.country === filters.country);
+    }
+    if (filters.customerTier) {
+      data = data.filter((d) => d.customerTier === filters.customerTier);
+    }
+    if (filters.status) {
+      data = data.filter((d) => d.status === filters.status);
+    }
+    if (filters.search) {
+      data = data.filter((val) => {
+        return val.customerName
+          .toLowerCase()
+          .includes(filters.search.toLowerCase());
+      });
+    }
+    return data;
+  }, [
+    filters.country,
+    filters.customerTier,
+    filters.status,
+    filters.search,
+    orders,
+  ]);
+
   const summary = useMemo(() => {
     return {
-      revenue: orders
+      revenue: filteredData
         .reduce(
           (acc, val) =>
             acc + val.orderValue - (val.discountPercent / 100) * val.orderValue,
@@ -49,19 +76,19 @@ function App() {
           currency: "INR",
         }),
       avgValue: (
-        orders.reduce(
+        filteredData.reduce(
           (acc, val) =>
             acc + val.orderValue - (val.discountPercent / 100) * val.orderValue,
           0
-        ) / orders.length
+        ) / filteredData.length
       ).toLocaleString("en-IN", {
         style: "currency",
         currency: "INR",
       }),
-      completed: orders.filter((data) => data.status === "Completed").length,
-      totalSold: orders.reduce((acc, val) => acc + val.itemsCount, 0),
+      completed: filteredData.filter((data) => data.status === "Completed").length,
+      totalSold: filteredData.reduce((acc, val) => acc + val.itemsCount, 0),
     };
-  }, [orders]);
+  }, [filteredData]);
 
   return (
     <div className="min-h-full">
@@ -121,7 +148,7 @@ function App() {
           </section>
 
           {/* data table */}
-          <Table orders={orders} {...filters} />
+          <Table filteredData={filteredData} />
         </div>
       </div>
     </div>

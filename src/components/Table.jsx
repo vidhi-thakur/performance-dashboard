@@ -1,27 +1,8 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { FaSort } from "react-icons/fa";
 
-function Table({ orders, country, customerTier, status, search }) {
+function Table({ filteredData }) {
   console.log("row render");
-  
-  const filteredData = useMemo(() => {
-    let data = orders;
-    if (country) {
-      data = data.filter((d) => d.country === country);
-    }
-    if (customerTier) {
-      data = data.filter((d) => d.customerTier === customerTier);
-    }
-    if (status) {
-      data = data.filter((d) => d.status === status);
-    }
-    if (search) {
-      data = data.filter((val) => {
-        return val.customerName.toLowerCase().includes(search.toLowerCase());
-      });
-    }
-    return data;
-  }, [country, customerTier, status, search, orders]);
   return (
     <>
       <section className="bg-white rounded-(--spacing-sm) h-112 overflow-auto mb-4">
