@@ -7,7 +7,7 @@ import { useMemo, useState } from "react";
 import Filter from "./components/Filter";
 import Table from "./components/Table";
 import { MdClear } from "react-icons/md";
-import { decounce } from "./helpers/debounce";
+import { debounce } from "./helpers/debounce";
 
 function App() {
   const orders = useMemo(() => generateOrders(), []);
@@ -19,7 +19,7 @@ function App() {
     status: "",
   });
 
-  const handleSearch = decounce((text) => {
+  const handleSearch = debounce((text) => {
     setFilters((val) => ({ ...val, search: text }));
   }, 3000);
 

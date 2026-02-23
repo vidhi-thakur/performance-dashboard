@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { FaSort } from "react-icons/fa";
 import { getScrollbarSize, List } from "react-window";
 
 function Table({ filteredData }) {
