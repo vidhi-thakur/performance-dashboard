@@ -203,3 +203,103 @@ Main Thread Breakdown:
 
 Interaction Latency:
 - INP: 1777ms
+
+---
+
+
+### <u>Category 3</u>: Virtualization to data list
+### React Profiler
+
+Interaction tested:
+- Typing a single character in search input
+
+Commits:
+- Total commits: 2
+- Slowest commit: 14.6ms
+- Second commit: 0.7ms
+
+Component level cost:
+- Row render count: 
+- Stats render count: 
+
+---
+
+Interaction tested:
+- Applied all filters
+
+Commits:
+- Total commits: 6
+- 6th commit: 8.6ms
+- 1st commit: 3.3ms
+- 2nd commit: 3.3ms
+- 3rd commit: 3.6ms
+- 4th commit: 14.4ms
+- 5th commit: 1.2ms
+
+Component level cost:
+- Row render count: 
+- Stats render count: 
+---
+
+Interaction tested:
+- Cleared filters
+
+Commits:
+- Total commits: 2
+- 1st commit: 18ms
+- 2nd commit: 2.4ms
+
+Component level cost:
+- Row render count: 
+- Stats render count: 
+
+### Performance tab
+
+Interaction tested:
+- Typing a single character in search input
+
+Long Task:
+- Duration: 288ms
+- Triggered by: keypress event
+
+Main Thread Breakdown:
+- Scripting (JavaScript execution): 227ms
+- React/System overhead: 59ms
+- Rendering: 2ms
+
+Interaction Latency:
+- INP: 70ms
+
+---
+
+Interaction tested:
+- Applying all filters
+
+Long Task:
+- Duration: 149ms
+- Triggered by: click event
+
+Main Thread Breakdown:
+- Scripting (JavaScript execution): 0ms
+- React/System overhead: 149ms
+- Rendering: 0ms
+
+Interaction Latency:
+- INP: 225ms
+
+---
+
+Interaction tested:
+- Clearing filters
+
+Long Task:
+- Duration: 77ms
+- Triggered by: click event
+
+Main Thread Breakdown:
+- Scripting (JavaScript execution): 0ms
+- React/System overhead: 77ms
+- Rendering: 0ms
+
+Interaction Latency:
+- INP: 85ms
