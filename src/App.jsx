@@ -7,6 +7,7 @@ import { useMemo, useState } from "react";
 import Filter from "./components/Filter";
 import Table from "./components/Table";
 import { MdClear } from "react-icons/md";
+import { decounce } from "./helpers/debounce";
 
 function App() {
   const orders = useMemo(() => generateOrders(), []);
@@ -18,9 +19,9 @@ function App() {
     status: "",
   });
 
-  const handleSearch = (e) => {
-    setFilters((val) => ({ ...val, search: e.target.value }));
-  };
+  const handleSearch = decounce((text) => {
+    setFilters((val) => ({ ...val, search: text }));
+  }, 3000);
 
   const handleApply = ({ country, customerTier, status }) => {
     setFilters((val) => ({ ...val, country, customerTier, status }));
@@ -85,7 +86,8 @@ function App() {
         style: "currency",
         currency: "INR",
       }),
-      completed: filteredData.filter((data) => data.status === "Completed").length,
+      completed: filteredData.filter((data) => data.status === "Completed")
+        .length,
       totalSold: filteredData.reduce((acc, val) => acc + val.itemsCount, 0),
     };
   }, [filteredData]);
@@ -121,7 +123,7 @@ function App() {
                 type="text"
                 className="flex-1 hover:bg-transparent focus-visible:outline-0 pl-1"
                 placeholder="Search..."
-                onChange={handleSearch}
+                onChange={(e) => handleSearch(e.target.value)}
               />
               <FaSearch />
             </div>

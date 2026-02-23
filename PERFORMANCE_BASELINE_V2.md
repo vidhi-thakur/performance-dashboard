@@ -207,7 +207,7 @@ Interaction Latency:
 ---
 
 
-### <u>Category 3</u>: Virtualization to data list
+### <u>Category 3</u>: Virtualization & debounce
 ### React Profiler
 
 Interaction tested:
@@ -215,7 +215,7 @@ Interaction tested:
 
 Commits:
 - Total commits: 2
-- Slowest commit: 14.6ms
+- Slowest commit: 13.5ms
 - Second commit: 0.7ms
 
 Component level cost:
@@ -229,12 +229,12 @@ Interaction tested:
 
 Commits:
 - Total commits: 6
-- 6th commit: 8.6ms
-- 1st commit: 3.3ms
-- 2nd commit: 3.3ms
-- 3rd commit: 3.6ms
-- 4th commit: 14.4ms
-- 5th commit: 1.2ms
+- 1st commit: 10.5ms
+- 2nd commit: 3.5ms
+- 3rd commit: 3.5ms
+- 4th commit: 4ms
+- 5th commit: 17ms
+- 6th commit: 0.9ms
 
 Component level cost:
 - Row render count: 
@@ -246,8 +246,8 @@ Interaction tested:
 
 Commits:
 - Total commits: 2
-- 1st commit: 18ms
-- 2nd commit: 2.4ms
+- 1st commit: 23.6ms
+- 2nd commit: 4.6ms
 
 Component level cost:
 - Row render count: 
@@ -263,12 +263,12 @@ Long Task:
 - Triggered by: keypress event
 
 Main Thread Breakdown:
-- Scripting (JavaScript execution): 227ms
-- React/System overhead: 59ms
-- Rendering: 2ms
+- Scripting (JavaScript execution): 368ms
+- React/System overhead: 98ms
+- Rendering: 0ms
 
 Interaction Latency:
-- INP: 70ms
+- INP: 31ms
 
 ---
 
@@ -276,16 +276,16 @@ Interaction tested:
 - Applying all filters
 
 Long Task:
-- Duration: 149ms
+- Duration: 176ms
 - Triggered by: click event
 
 Main Thread Breakdown:
-- Scripting (JavaScript execution): 0ms
-- React/System overhead: 149ms
+- Scripting (JavaScript execution): 1ms
+- React/System overhead: 175ms
 - Rendering: 0ms
 
 Interaction Latency:
-- INP: 225ms
+- INP: 149ms
 
 ---
 
@@ -293,13 +293,13 @@ Interaction tested:
 - Clearing filters
 
 Long Task:
-- Duration: 77ms
+- Duration: 175ms
 - Triggered by: click event
 
 Main Thread Breakdown:
 - Scripting (JavaScript execution): 0ms
-- React/System overhead: 77ms
-- Rendering: 0ms
+- React/System overhead: 174ms
+- Rendering: 1ms
 
 Interaction Latency:
-- INP: 85ms
+- INP: 132ms
