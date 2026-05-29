@@ -4,11 +4,11 @@ A data-heavy frontend dashboard built to intentionally expose real-world perform
 
 This project focuses on measurement-first performance engineering: profiling before fixing, and validating improvements with concrete metrics. 
 
-**Version 1**: 
+**<u>Version 1</u>**: 
 1. Performance metrics: https://github.com/vidhi-thakur/performance-dashboard/blob/v2/PERFORMANCE_BASELINE_V1.md
 2. Live link: https://transaction-analytice-dashboard.netlify.app/
 
-**Version 2**:
+**<u>Version 2</u>**: 
 1. Performance metrics: https://github.com/vidhi-thakur/performance-dashboard/blob/v2/PERFORMANCE_BASELINE_V2.md
 2. Live link: https://v2--transaction-analytice-dashboard.netlify.app/
 
@@ -34,5 +34,3 @@ npm install
 ```
 npm run dev
 ```
-
-### Live demo link: [https://transaction-analytice-dashboard.netlify.app/](https://v2--transaction-analytice-dashboard.netlify.app/)
