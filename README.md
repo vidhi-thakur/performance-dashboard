@@ -6,7 +6,7 @@ This project focuses on measurement-first performance engineering: profiling bef
 
 **<u>Version 1</u>**: 
 1. Performance metrics: https://github.com/vidhi-thakur/performance-dashboard/blob/v2/PERFORMANCE_BASELINE_V1.md
-2. Live link: https://transaction-analytice-dashboard.netlify.app/
+2. Live link: https://v1--transaction-analytice-dashboard.netlify.app/
 
 **<u>Version 2</u>**: 
 1. Performance metrics: https://github.com/vidhi-thakur/performance-dashboard/blob/v2/PERFORMANCE_BASELINE_V2.md
