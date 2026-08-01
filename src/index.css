@@ -55,21 +55,7 @@ h2 {
     background-color: var(--theme-color-hover);
   }
 
-  table thead th {
-    padding: 16px;
-    border-bottom: 1.5px solid #00000010;
-    text-align: left;
-  }
-
-  table td {
-    padding: 8px 16px;
-  }
-
-  table tbody {
-    padding: 16px;
-  }
-
-  table tbody tr:nth-child(2n) {
+  .custom-table .custom-tr:nth-child(2n) {
     background-color: var(--theme-color-light);
   }
 }

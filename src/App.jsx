@@ -3,14 +3,14 @@ import Stats from "./components/Stats";
 import { generateOrders } from "./helpers/fakeDataGenerator";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
-import { FaSort } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import Filter from "./components/Filter";
+import Table from "./components/Table";
 import { MdClear } from "react-icons/md";
+import { debounce } from "./helpers/debounce";
 
 function App() {
-  const [filteredData, setFilteredData] = useState([]);
-  const [orders, setOrders] = useState([]);
+  const orders = useMemo(() => generateOrders(), []);
   const [isFilterOpen, setFilterOpen] = useState(false);
   const [filters, setFilters] = useState({
     search: "",
@@ -19,15 +19,25 @@ function App() {
     status: "",
   });
 
-  useEffect(() => {
-    (() => {
-      const orders = generateOrders();
-      setFilteredData(orders);
-      setOrders(orders);
-    })();
-  }, []);
+  const handleSearch = debounce((text) => {
+    setFilters((val) => ({ ...val, search: text }));
+  }, 3000);
 
-  useEffect(() => {
+  const handleApply = ({ country, customerTier, status }) => {
+    setFilters((val) => ({ ...val, country, customerTier, status }));
+    setFilterOpen(false);
+  };
+
+  const resetFilters = () => {
+    setFilters((val) => ({
+      ...val,
+      country: "",
+      customerTier: "",
+      status: "",
+    }));
+  };
+
+  const filteredData = useMemo(() => {
     let data = orders;
     if (filters.country) {
       data = data.filter((d) => d.country === filters.country);
@@ -45,8 +55,7 @@ function App() {
           .includes(filters.search.toLowerCase());
       });
     }
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setFilteredData(data);
+    return data;
   }, [
     filters.country,
     filters.customerTier,
@@ -55,24 +64,33 @@ function App() {
     orders,
   ]);
 
-  const handleSearch = (e) => {
-    setFilters((val) => ({ ...val, search: e.target.value }));
-  };
-
-  const handleApply = ({ country, customerTier, status }) => {
-    setFilters((val) => ({ ...val, country, customerTier, status }));
-    setFilterOpen(false);
-  };
-
-  const resetFilters = () => {
-    setFilteredData(orders);
-    setFilters((val) => ({
-      ...val,
-      country: "",
-      customerTier: "",
-      status: "",
-    }));
-  };
+  const summary = useMemo(() => {
+    return {
+      revenue: filteredData
+        .reduce(
+          (acc, val) =>
+            acc + val.orderValue - (val.discountPercent / 100) * val.orderValue,
+          0
+        )
+        .toLocaleString("en-IN", {
+          style: "currency",
+          currency: "INR",
+        }),
+      avgValue: (
+        filteredData.reduce(
+          (acc, val) =>
+            acc + val.orderValue - (val.discountPercent / 100) * val.orderValue,
+          0
+        ) / filteredData.length
+      ).toLocaleString("en-IN", {
+        style: "currency",
+        currency: "INR",
+      }),
+      completed: filteredData.filter((data) => data.status === "Completed")
+        .length,
+      totalSold: filteredData.reduce((acc, val) => acc + val.itemsCount, 0),
+    };
+  }, [filteredData]);
 
   return (
     <div className="min-h-full">
@@ -90,44 +108,10 @@ function App() {
         </div>
         {/* summary stats */}
         <section className="flex gap-4 mb-(--spacing-lg) flex-wrap">
-          <Stats
-            title="Total Revenue"
-            value={orders
-              .reduce(
-                (acc, val) =>
-                  acc +
-                  val.orderValue -
-                  (val.discountPercent / 100) * val.orderValue,
-                0
-              )
-              .toLocaleString("en-IN", {
-                style: "currency",
-                currency: "INR",
-              })}
-          />
-          <Stats
-            title="Average Order Value"
-            value={(
-              orders.reduce(
-                (acc, val) =>
-                  acc +
-                  val.orderValue -
-                  (val.discountPercent / 100) * val.orderValue,
-                0
-              ) / orders.length
-            ).toLocaleString("en-IN", {
-              style: "currency",
-              currency: "INR",
-            })}
-          />
-          <Stats
-            title="Completed Orders"
-            value={orders.filter((data) => data.status === "Completed").length}
-          />
-          <Stats
-            title="Total Items Sold"
-            value={orders.reduce((acc, val) => acc + val.itemsCount, 0)}
-          />
+          <Stats title="Total Revenue" value={summary.revenue} />
+          <Stats title="Average Order Value" value={summary.avgValue} />
+          <Stats title="Completed Orders" value={summary.completed} />
+          <Stats title="Total Items Sold" value={summary.totalSold} />
         </section>
 
         <div className="mb-12">
@@ -139,7 +123,7 @@ function App() {
                 type="text"
                 className="flex-1 hover:bg-transparent focus-visible:outline-0 pl-1"
                 placeholder="Search..."
-                onChange={handleSearch}
+                onChange={(e) => handleSearch(e.target.value)}
               />
               <FaSearch />
             </div>
@@ -166,49 +150,7 @@ function App() {
           </section>
 
           {/* data table */}
-
-          <section className="bg-white rounded-(--spacing-sm) h-112 overflow-auto mb-4">
-            <table border="1" cellPadding="8" width={"100%"}>
-              <thead className="bg-white sticky top-0 border-bottom">
-                <tr>
-                  <th>
-                    <div className="flex items-center justify-between">
-                      <span>Customer Name</span>
-                      <FaSort className="cursor-pointer" />
-                    </div>
-                  </th>
-                  <th>Customer Tier</th>
-                  <th>Country</th>
-                  <th>Order Value</th>
-                  <th>Items Count</th>
-                  <th>Discount %</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {filteredData.map((user) => (
-                  <tr key={user.id}>
-                    <td>{user.customerName}</td>
-                    <td>{user.customerTier}</td>
-                    <td>{user.country}</td>
-                    <td>
-                      {user.orderValue.toLocaleString("en-IN", {
-                        style: "currency",
-                        currency: "INR",
-                      })}
-                    </td>
-                    <td>{user.itemsCount}</td>
-                    <td>{user.discountPercent}</td>
-                    <td>{user.status}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </section>
-          <div className="text-gray-700 text-3">
-            Showing {filteredData.length} results
-          </div>
+          <Table filteredData={filteredData} />
         </div>
       </div>
     </div>

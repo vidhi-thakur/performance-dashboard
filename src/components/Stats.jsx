@@ -9,4 +9,4 @@ function Stats({ title, value }) {
   );
 }
 
-export default Stats;
+export default React.memo(Stats);
