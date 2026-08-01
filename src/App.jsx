@@ -45,6 +45,7 @@ function App() {
           .includes(filters.search.toLowerCase());
       });
     }
+    
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setFilteredData(data);
   }, [
