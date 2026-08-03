@@ -65,6 +65,7 @@ const tiers = ["Free", "Pro", "Enterprise"];
 const statuses = ["Pending", "Completed", "Cancelled"];
 
 export function generateOrders(count = 5000) {
+  if (count <= 0) return [];
   return Array.from({ length: count }, (_, i) => {
     const orderValue = Math.floor(Math.random() * 900 + 100);
     const discountPercent = Math.floor(Math.random() * 30);
