@@ -61,7 +61,7 @@ function Filter({ handleCancel, handleApply }) {
 const DropdownInput = ({ label, options, id, handleChange }) => {
   return (
     <div className="flex flex-col gap-1">
-      <label for={id}>{label}</label>
+      <label htmlFor={id}>{label}</label>
       <div className="border border-black/25 px-1 py-2 rounded-(--spacing-sm)">
         <select
           onChange={handleChange}
