@@ -9,7 +9,7 @@ function Filter({ handleCancel, handleApply }) {
 
   return (
     <div className="absolute top-10 right-0 z-10 bg-white shadow-(--shadow) w-72 p-4 rounded-(--spacing-sm) flex flex-col gap-4">
-      <header className="font-semibold">Filter</header>
+      <header className="font-semibold" data-testid="filter-header">Filter</header>
       <div className="flex flex-col gap-2">
         <DropdownInput
           label="Country"
@@ -66,6 +66,7 @@ const DropdownInput = ({ label, options, id, handleChange }) => {
         <select
           onChange={handleChange}
           id={id}
+          data-testid={`dropdown-for-${id}`}
           name={id}
           className="focus-visible:outline-0 w-full"
         >
