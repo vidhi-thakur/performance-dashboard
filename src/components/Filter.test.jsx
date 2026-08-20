@@ -75,7 +75,41 @@ describe("Filter", () => {
     expect(statusSelect).toHaveValue("Completed");
   });
 
-  it("calls handleCancel when Cancel button is clicked", () => {
+  it("calls handleCancel when Cancel button is clicked", async () => {
+    const user = userEvent.setup();
+    const handleCancelFn = vi.fn();
+    render(<Filter handleApply={vi.fn()} handleCancel={handleCancelFn} />);
+    const cancelBtn = screen.getByRole("button", { name: /cancel/i });
 
-  })
+    await user.click(cancelBtn);
+    expect(handleCancelFn).toHaveBeenCalledTimes(1);
+  });
+
+  it("calls handleApply with selected options when apply button is clicked", async () => {
+    const user = userEvent.setup();
+    const handleApplyFn = vi.fn();
+    render(<Filter handleApply={handleApplyFn} handleCancel={vi.fn()} />);
+
+    // select country from dropdown
+    const countrySelect = screen.getByLabelText("Country");
+    await user.selectOptions(countrySelect, "India");
+
+    // select customer tier from dropdown
+    const customerTierSelect = screen.getByLabelText("Customer Tier");
+    await user.selectOptions(customerTierSelect, "Pro");
+
+    // select status from dropdown
+    const statusSelect = screen.getByLabelText("Status");
+    await user.selectOptions(statusSelect, "Pending");
+
+    // click apply button
+    const applyBtn = screen.getByRole("button", { name: /apply/i });
+    await user.click(applyBtn);
+
+    expect(handleApplyFn).toHaveBeenCalledExactlyOnceWith({
+      country: "India",
+      customerTier: "Pro",
+      status: "Pending",
+    })
+  });
 });
