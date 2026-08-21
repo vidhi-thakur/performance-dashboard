@@ -7,14 +7,14 @@ function Table({ filteredData }) {
     <>
       <div className="h-100 flex flex-col bg-white rounded-(--spacing-xs) custom-table">
         <div className="flex flex-row bg-white border-b border-black/10 rounded-t-(--spacing-default)">
-          <div className="grow flex flex-row items-center gap-2 font-bold">
-            <div className="flex-1 font-bold p-4">Customer Name</div>
-            <div className="flex-1 font-bold p-4">Customer Tier</div>
-            <div className="flex-1 font-bold p-4">Country</div>
-            <div className="flex-1 font-bold p-4">Order Value</div>
-            <div className="flex-1 font-bold p-4">Items Count</div>
-            <div className="flex-1 font-bold p-4">Discount %</div>
-            <div className="flex-1 font-bold p-4">Status</div>
+          <div className="grow flex flex-row items-center gap-2 font-bold" data-testid="table-header">
+            <div className="flex-1 font-bold p-4" data-testid="table-header-cell">Customer Name</div>
+            <div className="flex-1 font-bold p-4" data-testid="table-header-cell">Customer Tier</div>
+            <div className="flex-1 font-bold p-4" data-testid="table-header-cell">Country</div>
+            <div className="flex-1 font-bold p-4" data-testid="table-header-cell">Order Value</div>
+            <div className="flex-1 font-bold p-4" data-testid="table-header-cell">Items Count</div>
+            <div className="flex-1 font-bold p-4" data-testid="table-header-cell">Discount %</div>
+            <div className="flex-1 font-bold p-4" data-testid="table-header-cell">Status</div>
           </div>
           <div className="shrink" style={{ width: size }} />
         </div>
