@@ -28,7 +28,7 @@ function Table({ filteredData }) {
         </div>
       </div>
 
-      <div className="text-gray-700 text-3 mt-(--spacing-xs)">
+      <div data-testid="table-rowCount" className="text-gray-700 text-3 mt-(--spacing-xs)">
         Showing {filteredData.length} results
       </div>
     </>
@@ -43,7 +43,7 @@ function RowComponent({ index, filteredData, style }) {
       <div className="flex-1 p-4">{user.customerName}</div>
       <div className="flex-1 p-4">{user.customerTier}</div>
       <div className="flex-1 p-4">{user.country}</div>
-      <div className="flex-1 p-4">
+      <div className="flex-1 p-4" data-testid="table-orderValue">
         {user.orderValue.toLocaleString("en-IN", {
           style: "currency",
           currency: "INR",
